@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Angular js CRUD </title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+
+  </head>
+  <body ng-app="myApp" ng-controller="myController" >
+   <div class="container">
+       <hr>
+      <!-- <button type="button" class="btn btn-info btn-lg pull-right" data-toggle="modal" data-target="#myModal">Add new</button>
+ -->
+    <button type="button" class="btn btn-info btn-lg pull-right " data-toggle="modal" data-target="#myModal" >Add New</button>       
+       <h2>All USer</h2>
+       <span class="clearfix"></span>
+       <hr>
+
+   <div class="alert alert-info" ng-if ="message">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      Indicates a successful or positive action.
+   </div>
+
+<!-- /////////////////////// -->
+
+ <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Index</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+   
+    </thead>
+    <tbody>
+      <tr ng-repeat="user in users">
+        <td>{{$index+1}}.</td>
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+        <td>
+        <button type="button" class="btn btn-info" data-toggle="modal" ng-click="selectUser(user)" data-target="#myModalEdit">Edit</button>
+        </td>
+        <td>           
+           <button type="button" class="btn btn-danger"data-toggle="modal" data-target="#myModalDelete">Delete</button>
+        </td>
+       </tr>
+     </tbody>
+  </table>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add New User Reg</h4>
+      </div>
+
+      <div class="modal-body">
+        <form class="form-horizontal">
+  <div class="form-group">
+    <label class="control-label col-sm-2">username:</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" ng-model="newUser.username">
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <label class="control-label col-sm-2">Email:</label>
+    <div class="col-sm-10"> 
+  <input type="text" class="form-control" ng-model="newUser.email">
+    </div>
+  </div>
+  
+
+
+  <div class="form-group">
+    <label class="control-label col-sm-2" >Full Name:</label>
+    <div class="col-sm-10"> 
+      <input type="text" class="form-control" ng-model="newUser.fullname">
+    </div>
+  </div>
+
+
+  <div class="form-group"> 
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default" ng-click="saveUser()" data-dismiss="modal">Save</button>
+    </div>
+  </div>
+</form>
+ </div>
+
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Modal fro Edit User -->
+
+<!-- Modal -->
+<div id="myModalEdit" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click"clickedUser.username"=>&times;</button>
+        <h4 class="modal-title">Edit Thsie User</h4>
+      </div>
+
+      <div class="modal-body">
+        <form class="form-horizontal">
+  <div class="form-group">
+    <label class="control-label col-sm-2">username:</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" ng-model="clickedUser.username">
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <label class="control-label col-sm-2">Email:</label>
+    <div class="col-sm-10"> 
+      <input type="email" class="form-control" ng-model="clickedUser.mail">
+    </div>
+  </div>
+  
+
+
+  <div class="form-group">
+    <label class="control-label col-sm-2">Fullname:</label>
+    <div class="col-sm-10"> 
+      <input type="text" class="form-control" ng-model= "clickedUser.fullname">
+    </div>
+  </div>
+
+
+  <div class="form-group"> 
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default" data-dismiss="modal"  ng-click="updateUser()">Update</button>
+    </div>
+  </div>
+</form>
+ </div>
+
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Delet  -->
+
+
+
+<!-- Modal -->
+<div id="myModalDelete" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Are You Sure want fro Deleting?</h4>
+      </div>
+
+      <div class="modal-body">
+       <strong style="color: red">you Going To delete{{clickedUser.fullname}}.all Inforamtion</strong>
+      </div>
+
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="deleteUser()">Yes</button>
+      
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
